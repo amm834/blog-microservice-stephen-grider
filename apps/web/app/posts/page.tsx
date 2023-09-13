@@ -1,28 +1,38 @@
 'use client'
-import React, {FormEvent, useState} from 'react';
+import React, {ReactNode, useEffect, useState} from 'react';
+import PostCreate from "../components/PostCreate";
 import axios from "axios";
 
 const PostList = () => {
-        const [title, setTitle] = useState('')
+        const [posts, setPosts] = useState([])
 
-
-        function onPostCreate(e: FormEvent<HTMLFormElement>) {
-            e.preventDefault()
-
-            axios.post('http://localhost:4000/posts', {
-                title
-            }).then((res) => {
-                console.log(res.data)
-            })
+        const getAllPosts = async () => {
+            const response = await axios.get('http://localhost:4000/posts')
+            setPosts(response.data)
         }
+
+        useEffect(() => {
+            getAllPosts()
+            console.log(posts)
+        }, []);
+
+        const renderedPosts: ReactNode = Object.values(posts).map(post => {
+            return (
+                <div className="card" style={{width: '30%', marginBottom: '20px'}} key={post.id}>
+                    <div className="card-body">
+                        <h3>{post.title}</h3>
+                    </div>
+                </div>
+            )
+        })
 
         return (
             <div>
-                <h1>Create Post</h1>
-                <form onSubmit={onPostCreate}>
-                    <input type="text" onChange={e => setTitle(e.target.value)}/>
-                    <button type={"submit"}>Create Post</button>
-                </form>
+                <h1>Posts</h1>
+
+                {renderedPosts}
+
+                <PostCreate/>
             </div>
         );
     }
