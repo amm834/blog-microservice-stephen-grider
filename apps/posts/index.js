@@ -4,6 +4,7 @@ import {randomBytes} from 'node:crypto';
 
 const app = express()
 app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended: true}))
 
 const posts = {}
 
@@ -19,7 +20,8 @@ app.post('/posts', (req, res) => {
         title: req.body.title
     }
 
-    return res.json(posts[id])
+    return res.status(201)
+        .json(posts[id])
 })
 
 
