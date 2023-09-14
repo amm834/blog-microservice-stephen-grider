@@ -19,7 +19,8 @@ app.post('/posts', (req, res) => {
     const id = randomBytes(4).toString('hex')
 
     posts[id] = {
-        title: req.body.title
+        title: req.body.title,
+        id,
     }
 
     return res.status(201)

@@ -22,7 +22,7 @@ const PostCreate = () => {
         <div>
             <h1>Create Post</h1>
             <form onSubmit={onPostCreate}>
-                <input type="text" onChange={e => setTitle(e.target.value)}/>
+                <input type="text" value={title} onChange={e => setTitle(e.target.value)}/>
                 <button type={"submit"}>Create Post</button>
             </form>
         </div>
